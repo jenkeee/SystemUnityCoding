@@ -21,6 +21,8 @@ public class Unit : MonoBehaviour
     пока количество жизней не станет равным 100. На юнит не может действовать более одного эффекта исцеления одновременно.
 */
 
+    bool ActiveHoT;
+
     private void Start()
     {
         // hpRectSize = transform.GetChild(0).GetComponent<RectTransform>().sizeDelta;
@@ -30,22 +32,24 @@ public class Unit : MonoBehaviour
 
     public void HealingTouch()
     {
-        if (healingHoT != null)
+        if (healingHoT != null && ActiveHoT)
             StopCoroutine(healingHoT);
-        
-        healingHoT = StartCoroutine(HealingTouchCorutine());                
+            healingHoT = StartCoroutine(HealingTouchCorutine());
     }
     IEnumerator HealingTouchCorutine()
     {
-        for (int i = 0; i < 3 / 0.5; i++)
-        {
-            yield return new WaitForSeconds(0.5f);
-            if (hp < 100)
+        ActiveHoT = true;
+            for (int i = 0; i < 3 / 0.5; i++)
             {
-                hp += 5;
-                trHPText.GetComponent<Text>().text = hp.ToString();
-            }
-        }
+                yield return new WaitForSeconds(0.5f);
+                if (hp < 100)
+                {
+                    hp += 5;
+                if (hp >= 100) hp = 100;
+                    trHPText.GetComponent<Text>().text = hp.ToString();
+                }
+            }           
+        ActiveHoT = false;
     }
     void BarHPcurrent()
     {
