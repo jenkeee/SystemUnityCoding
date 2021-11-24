@@ -34,12 +34,12 @@ public class Unit : MonoBehaviour
     {
         if (healingHoT != null && ActiveHoT)
             StopCoroutine(healingHoT);
-            healingHoT = StartCoroutine(HealingTouchCorutine());
+            healingHoT = StartCoroutine(HealingTouchCorutine());         
     }
     IEnumerator HealingTouchCorutine()
     {
         ActiveHoT = true;
-            for (int i = 0; i < 3 / 0.5; i++)
+        for (int i = 0; i < 3 / 0.5; i++)
             {
                 yield return new WaitForSeconds(0.5f);
                 if (hp < 100)
@@ -48,7 +48,8 @@ public class Unit : MonoBehaviour
                 if (hp >= 100) hp = 100;
                     trHPText.GetComponent<Text>().text = hp.ToString();
                 }
-            }           
+           
+        }           
         ActiveHoT = false;
     }
     void BarHPcurrent()
