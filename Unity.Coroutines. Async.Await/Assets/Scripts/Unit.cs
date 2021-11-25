@@ -22,11 +22,13 @@ public class Unit : MonoBehaviour
 */
 
     bool ActiveHoT;
+    bool _canHeal;
 
     private void Start()
     {
         // hpRectSize = transform.GetChild(0).GetComponent<RectTransform>().sizeDelta;
-        trHPText.GetComponent<Text>().text = hp.ToString();       
+        trHPText.GetComponent<Text>().text = hp.ToString();
+        _canHeal = true;
     }
 
 
@@ -34,11 +36,14 @@ public class Unit : MonoBehaviour
     {
         if (healingHoT != null && ActiveHoT)
             StopCoroutine(healingHoT);
+        if (_canHeal)
             healingHoT = StartCoroutine(HealingTouchCorutine());         
     }
     IEnumerator HealingTouchCorutine()
     {
-        ActiveHoT = true;
+        //ActiveHoT = true;
+        StartCoroutine(        HealCooldown(1f));
+
         for (int i = 0; i < 3 / 0.5; i++)
             {
                 yield return new WaitForSeconds(0.5f);
@@ -49,9 +54,20 @@ public class Unit : MonoBehaviour
                     trHPText.GetComponent<Text>().text = hp.ToString();
                 }
            
-        }           
-        ActiveHoT = false;
+        }
+        
+       // ActiveHoT = false;
     }
+
+    private IEnumerator HealCooldown(float cooldownTimer)
+    {
+        _canHeal = false;
+       // Debug.Log(_canHeal);
+        yield return new WaitForSeconds(cooldownTimer);
+        _canHeal = true;
+      //  Debug.Log(_canHeal);
+    }
+
     void BarHPcurrent()
     {
         var get = transform.GetChild(0).GetComponent<RectTransform>().sizeDelta;
