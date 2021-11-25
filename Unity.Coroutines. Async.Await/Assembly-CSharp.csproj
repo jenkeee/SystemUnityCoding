@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Unit.cs" />
     <Compile Include="Assets\Scripts\CubeMove.cs" />
+    <Compile Include="Assets\Scripts\lesson1dz3.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
