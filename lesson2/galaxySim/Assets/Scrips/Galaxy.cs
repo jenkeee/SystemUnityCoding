@@ -22,10 +22,14 @@ public class Galaxy : MonoBehaviour
 
     private NativeArray<Vector3> positions;
 
-    public NativeArray<Quaternion> rotation; // dz3 для вращения
+    [SerializeField] // в редактор не вывести
+    public NativeArray<float> Zaxis; // dz3 для вращения
+    [SerializeField]
+    public float ZaxisUE;
+
     float Xaxis = 0;
     float Yaxis = 0;
-    float Zaxis = 0;
+   // float Zaxis = 0;
 
     private NativeArray<Vector3> velocities;
     private NativeArray<Vector3> accelerations;
@@ -37,7 +41,8 @@ public class Galaxy : MonoBehaviour
     private void Start()
     {
         positions = new NativeArray<Vector3>(numberOfEntities, Allocator.Persistent);
-        rotation = new NativeArray<Quaternion>(numberOfEntities, Allocator.Persistent);// создадим масив данных вращения , с алокатором безсрочным
+        Zaxis = new NativeArray<float>(numberOfEntities, Allocator.Persistent);
+        // rotation = new NativeArray<Quaternion>(numberOfEntities, Allocator.Persistent);// создадим масив данных вращения , с алокатором безсрочным        
         velocities = new NativeArray<Vector3>(numberOfEntities, Allocator.Persistent);
         accelerations = new NativeArray<Vector3>(numberOfEntities, Allocator.Persistent);
         masses = new NativeArray<float>(numberOfEntities, Allocator.Persistent);
@@ -47,6 +52,7 @@ public class Galaxy : MonoBehaviour
         {
             positions[i] = Random.insideUnitSphere * Random.Range(0, startDistance);
             velocities[i] = Random.insideUnitSphere * Random.Range(0, startVelocity);
+            Zaxis[i] = 10f;
             accelerations[i] = Vector3.zero;
             masses[i] = Random.Range(1, startMass);
 
@@ -54,11 +60,12 @@ public class Galaxy : MonoBehaviour
         }
         transformAccessArray = new TransformAccessArray(transforms);
 
-        // не буду рандомно вращать это все пусть с 0 вращениря будет
+        // в старте не дал вращения
     }
 
     private void Update()
     {
+        //Zaxis[0] = ZaxisUE;
 
         GravitationJob gravitationJob = new GravitationJob()
         {
@@ -76,28 +83,32 @@ public class Galaxy : MonoBehaviour
             Positions = positions,
             Velocities = velocities,
             Accelerations = accelerations,
-            Rotation = rotation, // вот куда нам без апдейта, скажем пусть обратит внимание на переменную которая и там и там
+            ZaxisInJob = Zaxis,
+           // Rotation = rotation, // вот куда нам без апдейта, скажем пусть обратит внимание на переменную которая и там и там
 
             DeltaTime = Time.deltaTime
         };
-        JobHandle moveHandle = moveJob.Schedule(transformAccessArray, gravitationHandle);
-        moveHandle.Complete();
+
+
+       JobHandle moveHandle = moveJob.Schedule(transformAccessArray, gravitationHandle);
+       moveHandle.Complete();
         
-        Zaxis += 1;
-        for (int i = 0; i < transform.childCount; i++)
+        //Zaxis += 1;
+       /* for (int i = 0; i < transform.childCount; i++)
         {
             int x = 1;
             x = x + 1;
             Quaternion target = Quaternion.Euler(0, 0, x);
 
             transform.GetChild(i).rotation = Quaternion.Euler(Xaxis, Yaxis, Zaxis);
-        }
+        }*/
     }
 
     private void OnDestroy()
     {
         positions.Dispose();
-        rotation.Dispose();// высвободим память занятую этим вот 
+        Zaxis.Dispose();
+      //  rotation.Dispose();// высвободим память занятую этим вот 
         velocities.Dispose();
         accelerations.Dispose();
         masses.Dispose();

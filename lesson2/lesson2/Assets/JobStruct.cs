@@ -4,7 +4,7 @@ using UnityEngine;
 
 public struct JobStruct : IJob
 {
-    [ReadOnly]
+   // [ReadOnly]
     public NativeArray<int> NumInObj;
 
     public void Execute() 

@@ -28,9 +28,11 @@ public class part1 : MonoBehaviour
         NumInObj = new NativeArray<int>(CountObj, Allocator.Persistent);
 
        // JobStruct myjob = new JobStruct(); // определяем стуркуту
-
-
       //  Transform[] transforms = new Transform[CountObj];
+
+
+
+
         for (int i = 0; i < CountObj; i++)
         {
             NumInObj[i] = Random.Range(4, 16);
@@ -40,13 +42,16 @@ public class part1 : MonoBehaviour
         }
         Debug.Log("----------------------------------------------------------------------------------------");
 
-        JobStruct myjob = new JobStruct();
-        myjob.Schedule();
-        /*
+
+        JobStruct myjob = new JobStruct() { NumInObj = NumInObj };
+        JobHandle myhandle =  myjob.Schedule();
+        myhandle.Complete();
+
+
         for (int i = 0; i < CountObj; i++)
         {
             Debug.Log("Объект под номером: " + (i + 1) + " получил число - " + NumInObj[i]);
-        }*/
+        }
 
         //  transformAccessArray = new TransformAccessArray(transforms);       
     }
@@ -60,7 +65,7 @@ public class part1 : MonoBehaviour
     private void OnDestroy()
     {
         NumInObj.Dispose();
-     //   transformAccessArray.Dispose();
+      //  transformAccessArray.Dispose();
     }
 }
    
