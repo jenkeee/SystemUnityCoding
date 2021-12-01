@@ -158,6 +158,7 @@ MonoBehaviour:
   startMass: 5
   gravitationModifier: 0.01
   celestialBodyPrefab: {fileID: 5004882259530842181, guid: 3768b01d5d701474bb7a3b0c9a836376, type: 3}
+  qatr: {x: 1.45, y: 1.29, z: 1.25, w: 0.15}
 --- !u!4 &1130716
 Transform:
   m_ObjectHideFlags: 0
