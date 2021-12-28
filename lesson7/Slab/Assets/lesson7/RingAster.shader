@@ -10,6 +10,7 @@ Shader "Custom/RingAster"
         _MinimumRenderDiatance("Minimum Render Distance", Float) =10
         _MaximumFadeDistance("Maximum Fade Distance", Float) =20
         _InnerRingDiameter ("Inner Ring Diametr", Range(0,1)) = 0.5
+        _RingDiametr ("Ring Diametr", Range(0,10)) = 2
     }
     SubShader
     {
@@ -39,6 +40,7 @@ Shader "Custom/RingAster"
         float _MinimumRenderDiatance;
         float _MaximumFadeDistance;
         float _InnerRingDiameter;
+        float _RingDiametr;
 
 
         void surf (Input IN, inout SurfaceOutputStandard o)
@@ -46,7 +48,7 @@ Shader "Custom/RingAster"
 float distance = length(_WorldSpaceCameraPos - IN.worldPos);
 
 
-float2 position = float2((0.5 - IN.uv_MainTex.x) * 2, (0.5 - IN.uv_MainTex.y) * 2);
+float2 position = float2((0.5 - IN.uv_MainTex.x) * _RingDiametr, (0.5 - IN.uv_MainTex.y) * _RingDiametr);
 float ringDistanceFromCenter = sqrt(position.x * position.x + position.y * position.y);
 
 clip(ringDistanceFromCenter - _InnerRingDiameter);
