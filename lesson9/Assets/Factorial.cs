@@ -79,24 +79,38 @@ public class Factorial : MonoBehaviour
             go.AddComponent<MeshRenderer>().material = material;
             go.transform.localScale = obgForParent.transform.localScale * 0.5f;
             go.transform.localRotation = _rotations[i];
-            go.transform.localPosition += obgForParent.transform.localPosition + obgForParent.transform.TransformDirection( _directions[i]) ;
+            go.transform.localPosition += obgForParent.transform.localPosition + obgForParent.transform.TransformDirection( _directions[i]) * obgForParent.transform.localScale.x;
         }        
     }
 
     private void Start()
     {
-        GameObject _mainObj = new GameObject("Main");
+        GameObject _mainObj = new GameObject("Main 0 0");
         _mainObj.transform.SetParent(transform, false);
         _mainObj.AddComponent<MeshFilter>().mesh = mesh;
         _mainObj.AddComponent<MeshRenderer>().material = material;
 
-        //   for (int i = 0; i < _depth; i++)
-        CreatePart(_mainObj, 1);
 
+        int x=0; // в данном случае это количество детей которые наплодит факториал
+        for (int currentDepth = 0; currentDepth < _depth ; currentDepth++ )
+        {  
+            for (int li = 0; li < x; li++)
+            {
+                CreatePart(transform.GetChild(li).gameObject, currentDepth);
+            }
+            x += Mathf.RoundToInt(Mathf.Pow(5, currentDepth));
+        }
+        Debug.Log(x);
+        Debug.Log(transform.childCount);
+
+        /*
+        CreatePart(_mainObj, 1);
         CreatePart(transform.GetChild(1).gameObject, 2);
         CreatePart(transform.GetChild(2).gameObject, 2);
         CreatePart(transform.GetChild(3).gameObject, 2);
         CreatePart(transform.GetChild(4).gameObject, 2);
+        CreatePart(transform.GetChild(5).gameObject, 2);
+        CreatePart(transform.GetChild(6).gameObject, 3);*/
         /*
                 Transform[][] allItemsMass = new Transform[_depth][];
 
