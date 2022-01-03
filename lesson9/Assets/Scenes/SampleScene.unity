@@ -348,8 +348,8 @@ MonoBehaviour:
   startMass: 0
   gravitationModifier: 0
   celestialBodyPrefab: {fileID: 0}
-  ZaxisUE: 0
   mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   material: {fileID: 2100000, guid: 85cec29ca83756c41a7321e00bdbdfca, type: 2}
   _depth: 3
-  _rotationSpeed: 0
+  _rotationSpeed: 15
+  test: 0
